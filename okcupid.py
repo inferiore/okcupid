@@ -14,7 +14,7 @@ total_importance=0
 question_matches = []
 
 for profile in profiles["profiles"]: #all profiles
-    if(profile["id"] in [0,1,2]):
+    if(profile["id"] in [0,1]):
         for question in profile["answers"]:#all question by profile
             for other_profile in profiles["profiles"]:#all question others profiles
                 if profile["id"] != other_profile["id"]:#exclude same profiles
@@ -29,12 +29,12 @@ for profile in profiles["profiles"]: #all profiles
 
 print("fin questions matches")
 sum=pd.DataFrame(question_matches)
-#sum.rename(index=str, columns={"0": "profile_id", "1":"other_profile_id"})
+#sum=sum.rename(index=str, columns={0: "profile_id", 1:"other_profile_id",2:'question_id',3:'posible_point',4:'real_point'})
 
+sum=sum.groupby(['profile_id','other_profile_id']).sum()
+sum["percent"]= (sum["real_point"]/sum["posible_point"])
 #sum.to_csv("cruzes.csv", sep='\t', encoding='utf-8')
-sum=sum.groupby([0,1]).sum()
-sum_point= (sum[4]/sum[3])
-#sum=pd.concat([sum,sum_point])
-#sum.to_csv("sumas.csv", sep='\t', encoding='utf-8')
+sum2=sum
+merge=pd.merge(sum,sum2,left_on=["other_profile_id","profile_id"],right_on=["profile_id","other_profile_id"],how='inner')
+print (sum2)
 
-print (sum_point)
