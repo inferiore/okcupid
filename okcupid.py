@@ -14,10 +14,10 @@ total_importance=0
 question_matches = []
 total_profiles=len(profiles["profiles"])
 current_profile_analisis=0
+print("calculating the concordances of the question.")
 
 for profile in profiles["profiles"]: #all profiles
     current_profile_analisis=current_profile_analisis+1
-    print("please wait %",current_profile_analisis/total_profiles*100)
     for question in profile["answers"]:#all question by profile
         for other_profile in profiles["profiles"]:#all profiles
             if profile["id"] != other_profile["id"]:#exclude same profiles
